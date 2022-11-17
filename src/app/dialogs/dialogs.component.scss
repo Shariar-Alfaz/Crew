@@ -1,0 +1,23 @@
+.custom-dialog {
+  min-width: 300px;
+  width: 350px;
+  padding-top: 30px;
+}
+.info-dialog-title{
+  color: rgb(192, 2, 192);
+}
+.success-dialog-title{
+  color: green;
+}
+.warning-dialog-title{
+  color: rgb(212, 212, 0);
+}
+.common-dialog-title{
+  color:black;
+}
+.error-dialog-title{
+  color:red;
+}
+.dialog-content{
+  margin-left: 30px;
+}

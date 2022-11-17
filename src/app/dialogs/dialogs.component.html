@@ -1,0 +1,54 @@
+
+
+<div class="custom-dialog">
+  <div class="">
+    <h5 *ngIf="!customDialogOption.IsConfirmationModal" class="m-0 p-1 dialog-title" [ngClass]="{
+    'info-dialog-title': customDialogOption.Type === 0,
+    'success-dialog-title': customDialogOption.Type === 1,
+    'warning-dialog-title': customDialogOption.Type === 2,
+    'common-dialog-title': customDialogOption.Type === 4,
+    'error-dialog-title': customDialogOption.Type === 3
+  }">
+      {{ customDialogOption.Title }}
+    </h5>
+
+    <h5 *ngIf="customDialogOption.IsConfirmationModal"
+    class="m-0 p-1 dialog-title" [ngClass]="{
+        'info-dialog-title': customDialogOption.Type === 0,
+        'success-dialog-title': customDialogOption.Type === 1,
+        'warning-dialog-title': customDialogOption.Type === 2,
+        'common-dialog-title': customDialogOption.Type === 4,
+        'error-dialog-title': customDialogOption.Type === 3
+      }">
+      {{ customDialogOption.Title }}
+    </h5>
+    <div class="py-3 dialog-content text-sm">
+      <span>{{ customDialogOption.Content }}</span>
+    </div>
+    <div *ngIf="customDialogOption.IsConfirmationModal" class="
+      dialog-footer
+      text-sm
+      p-1
+      flex
+      justify-content-end
+      align-items-center
+    ">
+    <button pButton pRipple type="button" label="NO" class="mr-2 p-button-text dialog-btn text-xs font-semibold"
+      (click)="handleDialogNoClick()"></button>
+    <button pButton pRipple type="button" label="YES" class="p-button-text dialog-btn text-xs font-semibold"
+      (click)="handleDialogYesClick()"></button>
+  </div>
+  <div *ngIf="!customDialogOption.IsConfirmationModal" class="
+      dialog-footer
+      text-sm
+      p-1
+      flex
+      justify-content-end
+      align-items-center
+    ">
+
+    <button pButton pRipple type="button" label="OK"
+      (click)="handleDialogOkClick()"></button>
+  </div>
+  </div>
+</div>
