@@ -5,4 +5,5 @@ export interface AdminDto{
   name:string;
   userId:string;
   password:string;
+  date:string|null;
 }

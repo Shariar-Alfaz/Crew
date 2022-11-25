@@ -52,7 +52,27 @@ export class AdminListComponent extends BaseComponent implements OnInit {
     this.adminNew = Object.assign({} as AdminDto, edit);
     console.log(this.adminNew);
   }
-  deleteAdmin(admin: any) {}
+  deleteAdmin(admin: any) {
+    var conf = 'Are you sure about deletion?';
+    this.dialogRef = this.openConfirmationDialog('Confirmation!', conf);
+    this.dialogRef.onClose.subscribe((value: boolean) => {
+      if (value) {
+        this.adminService.delete(admin.id).subscribe(
+          (res) => {
+            if (res.success) {
+              this.showDialog('Deleted.', ErrorDialogTypeEnums.Success);
+              var index = this.admins.findIndex((f) => f.id == admin.id);
+              this.admins.splice(index, 1);
+              this.admins = [...this.admins];
+            }
+          },
+          (err) => {
+            this.showDialog('Something wrong!!', ErrorDialogTypeEnums.Error);
+          }
+        );
+      }
+    });
+  }
   hideDialog() {
     this.adminDialog = false;
     this.submitted = false;
@@ -63,8 +83,8 @@ export class AdminListComponent extends BaseComponent implements OnInit {
       this.showDialog('Name is required', ErrorDialogTypeEnums.Warning);
       return;
     }
-    if(!this.adminNew.name.match('[a-zA-Z .-]*')){
-      this.showDialog('Name is not valid',ErrorDialogTypeEnums.Warning);
+    if (!this.adminNew.name.match('[a-zA-Z .-]*')) {
+      this.showDialog('Name is not valid', ErrorDialogTypeEnums.Warning);
       return;
     }
 
@@ -72,19 +92,23 @@ export class AdminListComponent extends BaseComponent implements OnInit {
       this.showDialog('User id is required', ErrorDialogTypeEnums.Warning);
       return;
     }
-    if(!this.adminNew.userId.match('([0-9]{2}-{1}[0-9]{4,5}-{1}[1-3]{1})+')){
-      this.showDialog('User id is not valid',ErrorDialogTypeEnums.Warning);
+    if (!this.adminNew.userId.match('([0-9]{2}-{1}[0-9]{4,5}-{1}[1-3]{1})+')) {
+      this.showDialog('User id is not valid', ErrorDialogTypeEnums.Warning);
       return;
     }
     if (!this.adminNew.email) {
       this.showDialog('Email is required', ErrorDialogTypeEnums.Warning);
       return;
     }
-    if(!this.adminNew.email.match('([a-zA-Z]+[0-9]*){1}[@]{1}(aiub){1}(.){1}(edu){1}')){
-      this.showDialog('Email is not valid',ErrorDialogTypeEnums.Warning);
+    if (
+      !this.adminNew.email.match(
+        '([a-zA-Z]+[0-9]*){1}[@]{1}(aiub){1}(.){1}(edu){1}'
+      )
+    ) {
+      this.showDialog('Email is not valid', ErrorDialogTypeEnums.Warning);
       return;
     }
-    if (this.visible == 'block' &&!this.adminNew.password) {
+    if (this.visible == 'block' && !this.adminNew.password) {
       this.showDialog('password is required', ErrorDialogTypeEnums.Warning);
       return;
     }
@@ -99,45 +123,59 @@ export class AdminListComponent extends BaseComponent implements OnInit {
       );
       return;
     }
-    this.managerLoader(true, this.pageLoader);
-    if(this.visible=='block'){
-    this.adminService.saveAdmin(this.adminNew).subscribe(
-      (res) => {
-        this.managerLoader(false, this.pageLoader);
-        if (res.success) {
-          this.adminDialog=false;
-          this.selectedAdmin = Object.assign({} as IAdmin, res.singleData);
-          this.admins.unshift(this.selectedAdmin);
-          this.admins = [...this.admins];
-          this.adminDialog = false;
-          this.adminTableDataSelect(this.selectedAdmin);
-          this.showDialog('Successfully saved.', ErrorDialogTypeEnums.Success);
-        }
-      },
-      (err) => {
-        this.managerLoader(false, this.pageLoader);
-        this.showDialog(err.message, ErrorDialogTypeEnums.Error);
-      }
+    this.adminNew.date = this.datePipe.transform(
+      this.adminNew.birthDate,
+      'yyyy-MM-dd'
     );
-  }else{
-    this.adminService.update(Object.assign({} as IAdmin,this.adminNew)).subscribe((res)=>{
-      this.managerLoader(false,this.pageLoader);
-      if(res.hasError){
-        this.showDialog(res.message,ErrorDialogTypeEnums.Error);
-        return;
-      }
-      this.adminDialog=false;
-      this.adminNew = Object.assign({} as IAdmin,res.singleData);
-      var index = this.admins.findIndex((f)=>f.id==this.adminNew.id);
-      this.admins.splice(index,1,this.adminNew);
-      this.admins = [...this.admins];
-      this.adminTableDataSelect(this.adminNew);
-      this.showDialog('Data Updated',ErrorDialogTypeEnums.Success);
-    },(err)=>{
-      this.managerLoader(false,this.pageLoader);
-      this.handleErrors(err);
-    })
-  }
+    this.managerLoader(true, this.pageLoader);
+    if (this.visible == 'block') {
+      this.adminService.saveAdmin(this.adminNew).subscribe(
+        (res) => {
+          this.managerLoader(false, this.pageLoader);
+          if (res.success) {
+            this.adminDialog = false;
+            this.selectedAdmin = Object.assign({} as IAdmin, res.singleData);
+            this.admins.unshift(this.selectedAdmin);
+            this.admins = [...this.admins];
+            this.adminDialog = false;
+            this.adminTableDataSelect(this.selectedAdmin);
+            this.showDialog(
+              'Successfully saved.',
+              ErrorDialogTypeEnums.Success
+            );
+          }
+        },
+        (err) => {
+          this.managerLoader(false, this.pageLoader);
+          this.showDialog(err.message, ErrorDialogTypeEnums.Error);
+        }
+      );
+    } else {
+      this,this.adminNew.password='null';
+      this.adminService
+        .update(this.adminNew)
+        .subscribe(
+          (res) => {
+            this.managerLoader(false, this.pageLoader);
+            if (res.hasError) {
+              this.showDialog(res.message, ErrorDialogTypeEnums.Error);
+              return;
+            }
+            this.adminDialog = false;
+            this.adminNew = Object.assign({} as IAdmin, res.singleData);
+            this.selectedAdmin = Object.assign({} as IAdmin, res.singleData);
+            var index = this.admins.findIndex((f) => f.id == this.adminNew.id);
+            this.admins.splice(index, 1, this.adminNew);
+            this.admins = [...this.admins];
+            this.adminTableDataSelect(this.selectedAdmin);
+            this.showDialog('Data Updated', ErrorDialogTypeEnums.Success);
+          },
+          (err) => {
+            this.managerLoader(false, this.pageLoader);
+            this.handleErrors(err);
+          }
+        );
+    }
   }
   adminTableDataSelect(data: IAdmin) {
     if (this.adminDataForm) {

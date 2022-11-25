@@ -1,4 +1,5 @@
 import { NgModule, Injectable } from '@angular/core';
+import {SkeletonModule} from 'primeng/skeleton';
 import { ToastModule } from 'primeng/toast';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
@@ -51,6 +52,8 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { MenuModule } from 'primeng/menu';
 import { SidebarModule } from 'primeng/sidebar';
 import { ChartModule } from 'primeng/chart';
+import {AvatarModule} from 'primeng/avatar';
+import {AvatarGroupModule} from 'primeng/avatargroup';
 @NgModule({
   exports: [
     InputTextModule,
@@ -106,6 +109,9 @@ import { ChartModule } from 'primeng/chart';
     MenuModule,
     SidebarModule,
     ChartModule,
+    SkeletonModule,
+    AvatarModule,
+    AvatarGroupModule
   ],
   providers: [DatePipe, CommonModule],
 })

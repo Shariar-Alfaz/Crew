@@ -19,4 +19,7 @@ export class AdminlistService {
   update(admin:any):Observable<IHttpResult>{
     return this.http.post<IHttpResult>(`${this.ROOT_URL}/Update`,admin);
   }
+  delete(id:number):Observable<IHttpResult>{
+    return this.http.delete<IHttpResult>(`${this.ROOT_URL}/Delete/${id}`);
+  }
 }

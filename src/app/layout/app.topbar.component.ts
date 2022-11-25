@@ -42,6 +42,6 @@ export class AppTopBarComponent implements OnInit {
   logOut() {
     localStorage.clear();
     this.interSer.logOut().subscribe();
-    this.router.navigate(['/login']);
+    this.router.navigate(['']);
   }
 }
