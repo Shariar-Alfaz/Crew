@@ -9,6 +9,8 @@ import { DialogsComponent } from './dialogs/dialogs.component';
 import {DynamicDialogModule} from 'primeng/dynamicdialog';
 import { PrimengModule } from './module/pimeng.module';
 import { NgxUiLoaderConfig, NgxUiLoaderModule, PB_DIRECTION, POSITION, SPINNER } from 'ngx-ui-loader';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './Root-service/interceptor/auth.interceptor';
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsPosition: POSITION.bottomCenter,
   bgsSize: 60,
@@ -37,9 +39,14 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AppLayoutModule,
     DynamicDialogModule,
     PrimengModule,
-    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig)
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
   ],
-  providers: [],
+  providers: [ {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi:true,
+  },
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

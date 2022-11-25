@@ -6,12 +6,15 @@
   <div class="login">
     <h1 style="text-align: center;">Login</h1>
     <br><br>
-    <div class="line"></div><br><br><br><br>
-    <form>
+    <div class="line"></div><br><br>
+    <div *ngIf="error" class="errormessage">
+      <p style="text-align: center;"><span>{{errMessage}}</span></p>
+    </div>
+    <form (ngSubmit)="submit()">
       <p>User name</p><br>
-      <input type="text" name="name"><br><br><br><br>
+      <input pInputText type="text" name="name" id="name" [(ngModel)]="login.email"><br><br><br>
       <p>Password</p><br>
-      <input type="password" name="password"><br><br><br>
+      <input pInputText type="password" name="password" id="password" [(ngModel)]="login.password"><br><br><br>
       <button type="submit">Login</button>
     </form>
     <br>

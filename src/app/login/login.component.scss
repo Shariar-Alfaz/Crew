@@ -39,14 +39,8 @@ p{
   text-align: center;
 }
 input,input:focus{
-  border: none;
-  border-bottom: 3px solid #5071E8 ;
-  outline: none;
-  padding: 5px;
-  font-size: medium;
-  width: 40vh;
-  min-width: 20vh;
-  text-align: center;
+  width: 50vh;
+  height: 50px;
 }
 button{
   width: 100%;
@@ -64,4 +58,7 @@ button:hover{
 .forget{
   font-weight: normal;
   color: #5071E8;
+}
+.errormessage span{
+  color: red;
 }

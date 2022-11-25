@@ -6,6 +6,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { StudentComponent } from './pages/student/student.component';
 import { AppLayoutModule } from '../layout/app.layout.module';
 import { NgxUiLoaderConfig, NgxUiLoaderModule, PB_DIRECTION, POSITION, SPINNER } from 'ngx-ui-loader';
+import { PrimengModule } from '../module/pimeng.module';
+import { AdminListComponent } from './pages/admin-list/admin-list.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsPosition: POSITION.bottomCenter,
@@ -27,12 +29,16 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 @NgModule({
   declarations: [
     DashboardComponent,
-    StudentComponent
+    StudentComponent,
+    AdminListComponent,
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    PrimengModule,
+  ],
+  providers:[
   ]
 })
 export class AdminModule { }

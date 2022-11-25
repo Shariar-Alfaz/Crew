@@ -12,11 +12,14 @@ import { ErrorDialogTypeEnums } from 'src/app/enums/common/common.enum';
 })
 export class StudentComponent extends BaseComponent implements OnInit {
 pageLoder:string='student-loader';
+students?:any;
+selectedStudent?:any;
+searchKey?:string;
   constructor(public override dialogService:DialogService, public loader:NgxUiLoaderService) {
     super(dialogService,loader);
   }
 
   ngOnInit(): void {
   }
-
+  openNew(){}
 }

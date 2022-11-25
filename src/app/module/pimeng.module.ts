@@ -110,6 +110,6 @@ import { ChartModule } from 'primeng/chart';
   providers: [DatePipe, CommonModule],
 })
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'any',
 })
 export class PrimengModule {}
