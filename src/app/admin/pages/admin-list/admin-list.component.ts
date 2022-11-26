@@ -50,7 +50,6 @@ export class AdminListComponent extends BaseComponent implements OnInit {
     this.visible = 'none';
     this.adminDialog = true;
     this.adminNew = Object.assign({} as AdminDto, edit);
-    console.log(this.adminNew);
   }
   deleteAdmin(admin: any) {
     var conf = 'Are you sure about deletion?';
@@ -137,7 +136,6 @@ export class AdminListComponent extends BaseComponent implements OnInit {
             this.selectedAdmin = Object.assign({} as IAdmin, res.singleData);
             this.admins.unshift(this.selectedAdmin);
             this.admins = [...this.admins];
-            this.adminDialog = false;
             this.adminTableDataSelect(this.selectedAdmin);
             this.showDialog(
               'Successfully saved.',

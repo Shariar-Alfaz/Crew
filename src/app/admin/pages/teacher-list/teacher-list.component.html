@@ -5,36 +5,38 @@
     </ng-template>
   </p-toolbar>
 
-  <p-table #adminDataTable
-  [globalFilterFields]="['name','userId','email']"
+  <p-table #TeacherDataTable
+  [globalFilterFields]="['name','useId','email']"
   [tableStyle]="{'min-width': '75rem'}"
-  [(selection)]="selectedAdmin"
+  [(selection)]="selectedTeacher"
   [scrollable]="true"
-  [value]="admins"
+  [value]="Teachers"
   [rows]="10"
   [paginator]="true"
   [rowsPerPageOptions]="[10,50,100,{showAll:'All'}]"
     selectionMode="single"
-    (onRowSelect)="adminTableDataSelect($event.Data)"
+    (onRowSelect)="TeacherTableDataSelect($event.Data)"
     [rowHover]="true"
     dataKey="id"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [showCurrentPageReport]="true">
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
-        <h5 class="m-0">Manage Admins</h5>
+        <h5 class="m-0">Manage Teachers</h5>
         <span class="p-input-icon-left">
           <i class="pi pi-search"></i>
-          <input (input)="adminDataTable.filterGlobal(searchKey,'contains')"
+          <input (input)="TeacherDataTable.filterGlobal(searchKey,'contains')"
             placeholder="Search..."  pInputText type="text" [(ngModel)]="searchKey"/>
         </span>
       </div>
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
+
         <th pSortableColumn="name" style="min-width:10rem">Name <p-sortIcon field="name"></p-sortIcon>
         </th>
-        <th pSortableColumn="userId">User id <p-sortIcon field="userId"></p-sortIcon>
+        <th>Image</th>
+        <th pSortableColumn="useId">User id <p-sortIcon field="useId"></p-sortIcon>
         </th>
         <th pSortableColumn="email" style="min-width:10rem">Email <p-sortIcon field="email"></p-sortIcon>
         </th>
@@ -43,64 +45,69 @@
         <th></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-admin>
-      <tr [pSelectableRow]="admin">
-        <td>{{admin.name}}</td>
-        <td>{{admin.userId}}</td>
-        <td>{{admin.email}}</td>
-        <td>{{admin.birthDate|date:'longDate'}}</td>
+    <ng-template pTemplate="body" let-Teacher>
+      <tr [pSelectableRow]="Teacher">
+
+        <td>{{Teacher.name}}</td>
+        <td>
+          <p-avatar *ngIf="Teacher.image!='N/A'" [image]="Teacher.image" size="large"></p-avatar>
+          <p-avatar *ngIf="Teacher.image=='N/A'" shape="circle" [label]="Teacher.name.substr(0,2)" [style]="{'background-color':'#9C27B0','color':'white'}" size="large" styleClass="mr-2"></p-avatar>
+        </td>
+        <td>{{Teacher.useId}}</td>
+        <td>{{Teacher.email}}</td>
+        <td>{{Teacher.birthDate|date:'longDate'}}</td>
         <td>
           <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-            (click)="editAdmin(admin)"></button>
+            (click)="editTeacher(Teacher)"></button>
           <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
-            (click)="deleteAdmin(admin)"></button>
+            (click)="deleteTeacher(Teacher)"></button>
         </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td [attr.colspan]="5" class="text-center sub-title">
+        <td [attr.colspan]="6" class="text-center sub-title">
           No Records Found
         </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="summary">
       <div class="flex align-items-center justify-content-between">
-        In total there are {{admins ? admins.length : 0 }} Admins.
+        In total there are {{Teachers ? Teachers.length : 0 }} Teachers.
       </div>
     </ng-template>
   </p-table>
 </div>
 
-<p-dialog [(visible)]="adminDialog" [style]="{width: '750px'}" header="Admin details" [modal]="true"
+<p-dialog [(visible)]="TeacherDialog" [style]="{width: '750px'}" header="Teacher details" [modal]="true"
   styleClass="p-fluid">
   <ng-template pTemplate="content">
-    <form #adminDataForm>
+    <form #TeacherDataForm>
       <div class="grid">
         <div class="col">
           <div class="field">
             <label for="name">Name</label>
-            <input type="text" pInputText id="name" #name="ngModel" [(ngModel)]="adminNew.name" name="name" required
+            <input type="text" pInputText id="name" #name="ngModel" [(ngModel)]="TeacherNew.name" name="name" required
               pattern="[a-zA-Z .-]*" autofocus />
-            <div *ngIf="(submitted && !adminNew.name)||(name.touched &&name.invalid)">
+            <div *ngIf="(submitted && !TeacherNew.name)||(name.touched &&name.invalid)">
               <small class="p-error" *ngIf="name.errors?.['required']">Name is required.</small>
               <small class="p-error" *ngIf="name.errors?.['pattern']">Name is not valid.</small>
             </div>
           </div>
           <div class="field">
             <label for="userId">User id</label>
-            <input type="text" pInputText id="userId" name="userId" #userId="ngModel" [(ngModel)]="adminNew.userId" required
+            <input type="text" pInputText id="userId" name="userId" #userId="ngModel" [(ngModel)]="TeacherNew.useId" required
               pattern="([0-9]{2}-{1}[0-9]{4,5}-{1}[1-3]{1})+" autofocus>
-            <div *ngIf="(submitted && !adminNew.userId)||(userId.touched &&userId.invalid)">
+            <div *ngIf="(submitted && !TeacherNew.useId)||(userId.touched &&userId.invalid)">
               <small class="p-error" *ngIf="userId.errors?.['required']">User id is required.</small>
               <small class="p-error" *ngIf="userId.errors?.['pattern']">User is not valid.hint(xx-xxxx-x,xx-xxxxx-x)</small>
             </div>
           </div>
           <div class="field">
             <label for="email">Email</label>
-            <input type="email" pInputText name="email" #email="ngModel" id="email" [(ngModel)]="adminNew.email" required
+            <input type="email" pInputText name="email" #email="ngModel" id="email" [(ngModel)]="TeacherNew.email" required
               pattern="([a-zA-Z]+[0-9]*){1}[@]{1}(aiub){1}(.){1}(edu){1}" autofocus>
-            <div *ngIf="(submitted && !adminNew.email)||(email.touched &&email.invalid)">
+            <div *ngIf="(submitted && !TeacherNew.email)||(email.touched &&email.invalid)">
               <small class="p-error" *ngIf="email.errors?.['required']">Email is required.</small>
               <small class="p-error" *ngIf="email.errors?.['pattern']">Email is not valid.</small>
             </div>
@@ -109,8 +116,8 @@
               <div class="field">
                 <label for="passwor">Password</label>
                 <input type="password" pInputText name="password" #password="ngModel" id="password"
-                  [(ngModel)]="adminNew.password" required autofocus>
-                <small class="p-error" *ngIf="(submitted && !adminNew.password)||(password.touched &&password.invalid)">password
+                  [(ngModel)]="TeacherNew.password" required autofocus>
+                <small class="p-error" *ngIf="(submitted && !TeacherNew.password)||(password.touched &&password.invalid)">password
                   is required.</small>
               </div>
               <div class="field">
@@ -124,7 +131,7 @@
         <div class="col">
           <div class="">
             <label for="description">Birth date</label>
-            <p-calendar  id="birth" #birth="ngModel" name="birth" [(ngModel)]="adminNew.birthDate" [inline]="true" [required]="true">
+            <p-calendar  id="birth" #birth="ngModel" name="birth" [(ngModel)]="TeacherNew.birthDate" [inline]="true" [required]="true">
             </p-calendar>
             <small class="p-error" *ngIf="birth.touched&&birth.invalid">Birth date is required.</small>
           </div>
@@ -135,8 +142,8 @@
 
   <ng-template pTemplate="footer">
     <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-    <button pButton pRipple [disabled]="adminDataForm?.invalid" label="Save"
-      icon="pi pi-check" type="submit" class="p-button-text" (click)="saveAdmin()"></button>
+    <button pButton pRipple [disabled]="TeacherDataForm?.invalid" label="Save"
+      icon="pi pi-check" type="submit" class="p-button-text" (click)="saveTeacher()"></button>
   </ng-template>
 </p-dialog>
-<ngx-ui-loader [loaderId]="'save'"></ngx-ui-loader>
+<ngx-ui-loader [loaderId]="'saveTeacher'"></ngx-ui-loader>

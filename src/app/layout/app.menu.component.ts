@@ -45,6 +45,15 @@ export class AppMenuComponent implements OnInit {
                   ]
                 }
               ]
+            },
+            {
+              label:'Class Room',
+              items:[
+                {
+                  label:'Class Room Management',
+                  icon:'bi bi-award'
+                }
+              ]
             }
         ];
     }
