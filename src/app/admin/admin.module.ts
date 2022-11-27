@@ -9,6 +9,7 @@ import { NgxUiLoaderConfig, NgxUiLoaderModule, PB_DIRECTION, POSITION, SPINNER }
 import { PrimengModule } from '../module/pimeng.module';
 import { AdminListComponent } from './pages/admin-list/admin-list.component';
 import { TeacherListComponent } from './pages/teacher-list/teacher-list.component';
+import { ClassmanagementComponent } from './pages/classmanagement/classmanagement.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsPosition: POSITION.bottomCenter,
@@ -33,6 +34,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     StudentComponent,
     AdminListComponent,
     TeacherListComponent,
+    ClassmanagementComponent,
   ],
   imports: [
     CommonModule,

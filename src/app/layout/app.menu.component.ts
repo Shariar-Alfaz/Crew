@@ -51,8 +51,9 @@ export class AppMenuComponent implements OnInit {
               items:[
                 {
                   label:'Class Room Management',
-                  icon:'bi bi-award'
-                }
+                  icon:'bi bi-award',
+                  routerLink:['/admin/class-management']
+                },
               ]
             }
         ];

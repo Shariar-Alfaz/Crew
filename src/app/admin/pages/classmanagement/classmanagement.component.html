@@ -1,0 +1,119 @@
+<div class="grid">
+  <div class="col-7">
+    <div class="card">
+      <p-table #ClassDataTable
+  [globalFilterFields]="['name','useId','email']"
+  [tableStyle]="{'width': '100%'}"
+  [(selection)]="selectedClass"
+  [scrollable]="true"
+  styleClass="p-datatable-sm"
+  [value]="classes"
+  [rows]="10"
+  [paginator]="true"
+  [rowsPerPageOptions]="[10,50,100,{showAll:'All'}]"
+    selectionMode="single"
+    (onRowSelect)="ClassTableDataSelect($event)"
+    [rowHover]="true"
+    dataKey="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true">
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <h5 class="m-0">Manage Classs</h5>
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input (input)="ClassDataTable.filterGlobal(searchKey,'contains')"
+            placeholder="Search..."  pInputText type="text" [(ngModel)]="searchKey"/>
+        </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+
+        <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="birthDate">Teacher<p-sortIcon field="birthDate"></p-sortIcon>
+        </th>
+        <th>Status</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-Class>
+      <tr [pSelectableRowDblClick]="Class">
+
+        <td>{{Class.name}}</td>
+        <td>
+          <div class="flex align-items-center">
+            <p-avatar *ngIf="Class.teacherPic!='N/A'" [image]="Class.teacherPic" size="large"></p-avatar>
+            <p-avatar *ngIf="Class.teacherPic=='N/A'" shape="circle" [label]="Class.teacherName.substr(0,2)" [style]="{'background-color':'#9C27B0','color':'white'}"  styleClass="mr-2"></p-avatar>
+          {{Class.teacherName}}
+        </div>
+      </td>
+      <td>
+        <p-tag *ngIf="!Class.makeArchive" styleClass="mr-2" icon="pi pi-check-circle" severity="success" value="Active"></p-tag>
+        <p-tag *ngIf="Class.makeArchive" styleClass="mr-2" icon="pi pi-eye-slash" severity="warning" value="Archived"></p-tag>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td [attr.colspan]="3" class="text-center sub-title">
+          No Records Found
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        In total there are {{classes ? classes.length : 0 }} Classes.
+      </div>
+    </ng-template>
+  </p-table>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <p-toolbar>
+        <div class="p-toolbar-group-left">
+          <p-button label="New" icon="pi pi-plus" styleClass="mr-2"></p-button>
+          <p-button [disabled]="!classDataForm.valid" label="Save" icon="pi pi-save" styleClass="p-button-success mr-2" (onClick)="saveClass()"></p-button>
+          <p-button label="Delete" icon="pi pi-trash" styleClass="p-button-danger"></p-button>
+        </div>
+      </p-toolbar>
+      <br>
+      <form #classDataForm="ngForm">
+        <div class="grid p-fluid">
+          <div class="col-12">
+            <label for="className">Class name</label><br>
+            <input type="text" required pattern="" pInputText name="className" id="className" #className="ngModel" [(ngModel)]="selectedClass.name">
+            <div *ngIf="(submitted && !selectedClass.name)||(className.touched &&className.invalid)">
+              <small class="p-error" *ngIf="className.errors?.['required']">Class name is required.</small>
+              <small class="p-error" *ngIf="className.errors?.['pattern']">Class name is not valid.</small>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <label for="teacher">Assign teacher</label><br>
+            <p-autoComplete [(ngModel)]="selectedTeacher" optionValue="id" [required]="true" name="teacher" #teacher="ngModel" [suggestions]="filteredTeacher"
+              (completeMethod)="filterTeacher($event)" field="name" [dropdown]="true" (onSelect)="selectedClass.teacherId=selectedTeacher.id">
+              <ng-template let-teacher pTemplate="item">
+                <div class="country-item">
+                  <p-avatar *ngIf="teacher.image!='N/A'" [image]="teacher.image" shape="circle" styleClass="mr-2"></p-avatar>
+                  <p-avatar *ngIf="teacher.image=='N/A'" shape="circle" styleClass="mr-2" [label]="teacher.name.substr(0,2)" [style]="{'background-color':'#9C27B0','color':'white'}" ></p-avatar>
+                  {{teacher.name}}
+                </div>
+              </ng-template>
+            </p-autoComplete>
+            <div *ngIf="(submitted && !selectedClass.teacherId)||(teacher.touched &&teacher.invalid)">
+              <small class="p-error" *ngIf="className.errors?.['required']">Teacher is required.</small>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <p-checkbox [(ngModel)]="selectedClass.makeArchive" [binary]="true" inputId="binary" name="check"></p-checkbox>
+            <label for="binary">&nbsp;&nbsp;Archived</label>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
