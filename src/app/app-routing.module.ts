@@ -13,6 +13,13 @@ const routes: Routes = [
     children:[
       {path:'',loadChildren:()=>import('./admin/admin.module').then((m)=>m.AdminModule)}
     ]
+  },
+  {
+    path:'teacher',
+    component:AppLayoutComponent,
+    children:[
+      {path:'',loadChildren:()=>import('./teacher/teacher.module').then((m)=>m.TeacherModule)}
+    ]
   }
 ];
 

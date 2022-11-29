@@ -61,14 +61,38 @@ export class ClassmanagementComponent extends BaseComponent implements OnInit {
     }
     this.filteredTeacher = get;
   }
-  deleteClass(Cl:Class){}
+  deleteClass(){
+    if(!this.selectedClass.id){
+      this.showDialog('Please select a class first',ErrorDialogTypeEnums.Warning);
+      return;
+    }
+    let conf:string = 'Are you sure you want to delete?';
+    this.dialogRef =this.openConfirmationDialog('Confirmation!',conf);
+    this.dialogRef.onClose.subscribe((value:boolean)=>{
+      if(value){
+        this.classService.deleteClass(this.selectedClass.id).subscribe((res)=>{
+          if(res.hasError){
+            this.showDialog(res.message,ErrorDialogTypeEnums.Error);
+            return;
+          }
+          if(res.success){
+            this.showDialog(res.message,ErrorDialogTypeEnums.Success);
+            var index = this.classes.findIndex((f)=>f.id==this.selectedClass.id);
+            this.classes.splice(index,1);
+            this.classes=[...this.classes];
+            this.selectedClass={}as Class;
+            this.selectedTeacher={}as Teacher;
+          }
+        },(err)=>{
+          this.handleErrors(err);
+        })
+      }
+    })
+
+  }
   ClassTableDataSelect(Data:any){
-    Object.keys(this.classDataForm.controls).forEach((key)=>{
-      this.classDataForm.controls[key].markAllAsTouched();
-    });
     this.selectedClass = Object.assign({}as Class,Data.data);
     this.selectedTeacher = this.findTeacher(this.selectedClass.teacherId);
-
   }
   getClasses(){
     this.loading=true;
@@ -119,7 +143,7 @@ export class ClassmanagementComponent extends BaseComponent implements OnInit {
         'teacherPic',
         'image'
       );
-      this.selectedClass = Object.assign({}as Class,res.singleData);
+      this.selectedClass = res.singleData;
 
       var index = this.classes.findIndex((f)=>f.id==this.selectedClass.id);
       if(index==-1){
@@ -169,7 +193,7 @@ export class ClassmanagementComponent extends BaseComponent implements OnInit {
     copyProperty: string
   ) {
     if (obj[searchProperty] != null || obj[searchProperty] != undefined) {
-      var index = sourceData.findIndex((x) => x.ID === obj[searchProperty]);
+      var index = sourceData.findIndex((x) => x.id === obj[searchProperty]);
       if (index >= 0) {
         obj[newProperty] = sourceData[index][copyProperty];
       } else {

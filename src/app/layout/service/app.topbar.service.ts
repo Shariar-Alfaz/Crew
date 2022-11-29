@@ -8,8 +8,12 @@ import { IHttpResult } from 'src/app/models/IHttpResult.model';
 })
 export class AppTopbarService {
   private ROOT_URL:string='Admin/api/';
+  private ROOT_URL2:string='Teacher/api/'
   constructor(private http:HttpClient) { }
   getMe():Observable<IHttpResult>{
     return this.http.get<IHttpResult>(`${this.ROOT_URL}GetMe`);
+  }
+  getTeacher():Observable<IHttpResult>{
+    return this.http.get<IHttpResult>(`${this.ROOT_URL2}GetMe`);
   }
 }

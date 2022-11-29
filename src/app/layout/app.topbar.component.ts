@@ -30,14 +30,21 @@ export class AppTopBarComponent implements OnInit {
     this.getMe();
   }
   getMe() {
-    this.service.getMe().subscribe(
-      (res) => {
-        this.me = Object.assign({} as IAdmin, res.singleData);
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    let role = localStorage.getItem('role');
+    if(role=='admin'){
+      this.service.getMe().subscribe(
+        (res) => {
+          this.me = Object.assign({} as IAdmin, res.singleData);
+        }
+      );
+    }else if(role=='teacher'){
+      this.service.getTeacher().subscribe((res)=>{
+        if(res.hasError){
+          return;
+        }
+        this.me = res.singleData;
+      })
+    }
   }
   logOut() {
     localStorage.clear();

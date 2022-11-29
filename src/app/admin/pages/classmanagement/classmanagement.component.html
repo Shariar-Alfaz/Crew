@@ -76,7 +76,7 @@
         <div class="p-toolbar-group-left">
           <p-button label="New" icon="pi pi-plus" styleClass="mr-2"></p-button>
           <p-button [disabled]="!classDataForm.valid" label="Save" icon="pi pi-save" styleClass="p-button-success mr-2" (onClick)="saveClass()"></p-button>
-          <p-button label="Delete" icon="pi pi-trash" styleClass="p-button-danger"></p-button>
+          <p-button label="Delete" icon="pi pi-trash" styleClass="p-button-danger" (onClick)="deleteClass()"></p-button>
         </div>
       </p-toolbar>
       <br>

@@ -16,4 +16,7 @@ ROOT_URL:string='Admin/api';
   saveClass(cl:Class):Observable<IHttpResult>{
     return this.http.post<IHttpResult>(`${this.ROOT_URL}/Save/Class`,cl);
   }
+  deleteClass(id:number):Observable<IHttpResult>{
+    return this.http.delete<IHttpResult>(`${this.ROOT_URL}/Delete/Class/${id}`);
+  }
 }
