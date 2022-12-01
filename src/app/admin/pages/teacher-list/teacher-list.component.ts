@@ -120,6 +120,7 @@ export class TeacherListComponent extends BaseComponent implements OnInit {
       'yyyy-MM-dd'
     );
     this.managerLoader(true, this.pageLoader);
+    
     if (this.visible == 'block') {
       this.teacherService.saveTeacher(this.TeacherNew).subscribe(
         (res) => {
