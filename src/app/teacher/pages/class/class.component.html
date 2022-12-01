@@ -1,1 +1,21 @@
-<p>class works!</p>
+<div class="card">
+<p-panel [header]="class.name">
+  <ng-template pTemplate="icons">
+    <button class="p-panel-header-icon p-link" pTooltip="Students" tooltipPosition="top" (click)="visibleSidebar2=true">
+      <span class="pi pi-users"></span>
+    </button>
+  </ng-template>
+</p-panel>
+<p-sidebar [(visible)]="visibleSidebar2" position="right" [baseZIndex]="10000">
+  <h4>Add students</h4>
+  <span class="p-fluid">
+    <p-autoComplete placeholder="Find students" [(ngModel)]="selectedStudents" [suggestions]="filteredStudents" (completeMethod)="filterStudent($event)" field="name" [multiple]="true">
+    </p-autoComplete>
+    <br>
+    <button pButton label="Add to class" icon="pi pi-save"></button>
+</span>
+  <p-divider align="center">
+    <span class="p-tag">Students in class</span>
+</p-divider>
+</p-sidebar>
+</div>
