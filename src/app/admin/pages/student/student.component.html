@@ -1,124 +1,163 @@
 <div class="card">
-      <p-toolbar styleClass="mb-4 gap-2">
-          <ng-template pTemplate="left">
-              <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
-          </ng-template>
-      </p-toolbar>
-
-      <p-table #dt [value]="students" [rows]="10" [paginator]="true" [globalFilterFields]="['name','country.name','representative.name','status']" [tableStyle]="{'min-width': '75rem'}"
-          [(selection)]="selectedStudent" [rowHover]="true" dataKey="id" selectionMode="single"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
-          <ng-template pTemplate="caption">
-              <div class="flex align-items-center justify-content-between">
-                  <h5 class="m-0">Manage Students</h5>
-                  <span class="p-input-icon-left">
-                      <i class="pi pi-search"></i>
-                      <input pInputText type="text" (input)="dt.filterGlobal(searchKey, 'contains')" placeholder="Search..." [ngModel]="searchKey" />
-                  </span>
-              </div>
-          </ng-template>
-          <ng-template pTemplate="header">
-              <tr>
-                  <th pSortableColumn="name" style="min-width:15rem">Name <p-sortIcon field="name"></p-sortIcon></th>
-                  <th>Image</th>
-                  <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
-                  <th pSortableColumn="category" style="min-width:10rem">Category <p-sortIcon field="category"></p-sortIcon></th>
-                  <th pSortableColumn="rating">Reviews <p-sortIcon field="rating"></p-sortIcon></th>
-                  <th pSortableColumn="inventoryStatus" style="min-width:10rem">Status <p-sortIcon field="inventoryStatus"></p-sortIcon></th>
-                  <th></th>
-              </tr>
-          </ng-template>
-          <ng-template pTemplate="body" let-product>
-              <tr>
-                  <td>
-                      <p-tableCheckbox [value]="product"></p-tableCheckbox>
-                  </td>
-                  <td>{{product.name}}</td>
-                  <td><img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.name" width="100" class="shadow-4" /></td>
-                  <td>{{product.price | currency:'USD'}}</td>
-                  <td>{{product.category}}</td>
-                  <td><p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating></td>
-                  <td><span [class]="'product-badge status-' + (product.inventoryStatus ? product.inventoryStatus.toLowerCase() : '')">{{product.inventoryStatus}}</span></td>
-                  <td>
-                      <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" ></button>
-                      <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"></button>
-                  </td>
-              </tr>
-          </ng-template>
-          <ng-template pTemplate="emptymessage">
-            <tr>
-              <td [attr.colspan]="7" class="text-center sub-title">
-                No Records Found
-              </td>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="summary">
-              <div class="flex align-items-center justify-content-between">
-                  In total there are {{students ? students.length : 0 }} students.
-              </div>
-          </ng-template>
-      </p-table>
+    <p-toolbar styleClass="mb-4 gap-2">
+      <ng-template pTemplate="left">
+        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+      </ng-template>
+    </p-toolbar>
+  
+    <p-table #StudentDataTable
+    [globalFilterFields]="['name','useId','email']"
+    [tableStyle]="{'min-width': '75rem'}"
+    [(selection)]="selectedStudent"
+    [scrollable]="true"
+    [value]="Students"
+    [rows]="10"
+    [paginator]="true"
+    [rowsPerPageOptions]="[10,50,100,{showAll:'All'}]"
+      selectionMode="single"
+      (onRowSelect)="StudentTableDataSelect($event.Data)"
+      [rowHover]="true"
+      dataKey="id"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [showCurrentPageReport]="true">
+      <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+          <h5 class="m-0">Manage Students</h5>
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input (input)="StudentDataTable.filterGlobal(searchKey,'contains')"
+              placeholder="Search..."  pInputText type="text" [(ngModel)]="searchKey"/>
+          </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+  
+          <th pSortableColumn="name" style="min-width:10rem">Name <p-sortIcon field="name"></p-sortIcon>
+          </th>
+          <th>Image</th>
+          <th pSortableColumn="userId">User id <p-sortIcon field="userId"></p-sortIcon>
+          </th>
+          <th pSortableColumn="email" style="min-width:10rem">Email <p-sortIcon field="email"></p-sortIcon>
+          </th>
+          <th pSortableColumn="phone" style="min-width:10rem">Phone <p-sortIcon field="phone"></p-sortIcon>
+          </th>
+          <th pSortableColumn="birthDate">Birthday<p-sortIcon field="birthDate"></p-sortIcon>
+          </th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-Student>
+        <tr [pSelectableRow]="Student">
+  
+          <td>{{Student.name}}</td>
+          <td>
+            <p-avatar *ngIf="Student.image!='N/A'" [image]="Student.image" size="large"></p-avatar>
+            <p-avatar *ngIf="Student.image=='N/A'" shape="circle" [label]="Student.name.substr(0,2)" [style]="{'background-color':'#9C27B0','color':'white'}" size="large" styleClass="mr-2"></p-avatar>
+          </td>
+          <td>{{Student.userId}}</td>
+          <td>{{Student.email}}</td>
+          <td>{{Student.phone}}</td>
+          <td>{{Student.birthDate|date:'longDate'}}</td>
+          <td>
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+              (click)="editStudent(Student)"></button>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+              (click)="deleteStudent(Student)"></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td [attr.colspan]="6" class="text-center sub-title">
+            No Records Found
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <div class="flex align-items-center justify-content-between">
+          In total there are {{Students ? Students.length : 0 }} Teachers.
+        </div>
+      </ng-template>
+    </p-table>
   </div>
-
-  <!-- <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true" styleClass="p-fluid">
-      <ng-template pTemplate="content">
-          <img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.image" class="product-image" *ngIf="product.image">
-          <div class="field">
+  
+  <p-dialog [(visible)]="StudentDialog" [style]="{width: '750px'}" header="Teacher details" [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+      <form #StudentDataForm>
+        <div class="grid">
+          <div class="col">
+            <div class="field">
               <label for="name">Name</label>
-              <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus />
-              <small class="p-error" *ngIf="submitted && !product.name">Name is required.</small>
-          </div>
-          <div class="field">
-              <label for="description">Description</label>
-              <textarea id="description" pInputTextarea [(ngModel)]="product.description" required rows="3" cols="20"></textarea>
-          </div>
-
-          <div class="field">
-              <label for="inventoryStatus">Inventory Status</label>
-              <p-dropdown [(ngModel)]="product.inventoryStatus" inputId="inventoryStatus" [options]="statuses" placeholder="Select">
-                  <ng-template let-option pTemplate="item">
-                      <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
-                  </ng-template>
-              </p-dropdown>
-          </div>
-
-          <div class="field">
-              <label class="mb-3">Category</label>
-              <div class="formgrid grid">
-                  <div class="field-radiobutton col-6">
-                      <p-radioButton id="category1" name="category" value="Accessories" [(ngModel)]="product.category"></p-radioButton>
-                      <label for="category1">Accessories</label>
-                  </div>
-                  <div class="field-radiobutton col-6">
-                      <p-radioButton id="category2" name="category" value="Clothing" [(ngModel)]="product.category"></p-radioButton>
-                      <label for="category2">Clothing</label>
-                  </div>
-                  <div class="field-radiobutton col-6">
-                      <p-radioButton id="category3" name="category" value="Electronics" [(ngModel)]="product.category"></p-radioButton>
-                      <label for="category3">Electronics</label>
-                  </div>
-                  <div class="field-radiobutton col-6">
-                      <p-radioButton id="category4" name="category" value="Fitness" [(ngModel)]="product.category"></p-radioButton>
-                      <label for="category4">Fitness</label>
-                  </div>
+              <input type="text" pInputText id="name" #name="ngModel" [(ngModel)]="StudentNew.name" name="name" required
+                pattern="[a-zA-Z .-]*" autofocus />
+              <div *ngIf="(submitted && !StudentNew.name)||(name.touched &&name.invalid)">
+                <small class="p-error" *ngIf="name.errors?.['required']">Name is required.</small>
+                <small class="p-error" *ngIf="name.errors?.['pattern']">Name is not valid.</small>
+              </div>
+            </div>
+            <div class="field">
+              <label for="userId">User id</label>
+              <input type="text" pInputText id="userId" name="userId" #userId="ngModel" [(ngModel)]="StudentNew.userId" required
+                pattern="([0-9]{2}-{1}[0-9]{4,5}-{1}[1-3]{1})+" autofocus>
+              <div *ngIf="(submitted && !StudentNew.userId)||(userId.touched &&userId.invalid)">
+                <small class="p-error" *ngIf="userId.errors?.['required']">User id is required.</small>
+                <small class="p-error" *ngIf="userId.errors?.['pattern']">User is not valid.hint(xx-xxxx-x,xx-xxxxx-x)</small>
+              </div>
+            </div>
+            <div class="field">
+                <label for="phone">Phone</label>
+                <input type="text" pInputText id="phone" #name="ngModel" [(ngModel)]="StudentNew.phone" name="phone" required
+                  pattern="(01){1}[1356789]{1}[0-9]{8}" autofocus />
+                <div *ngIf="(submitted && !StudentNew.phone)||(name.touched &&name.invalid)">
+                  <small class="p-error" *ngIf="name.errors?.['required']">Phone Number is required.</small>
+                  <small class="p-error" *ngIf="name.errors?.['pattern']">Phone Number is required.</small>
+                </div>
+              </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input type="email" pInputText name="email" #email="ngModel" id="email" [(ngModel)]="StudentNew.email" required
+                pattern="([a-zA-Z]+[0-9]*){1}[@]{1}(student).{1}(aiub){1}(.){1}(edu){1}" autofocus>
+              <div *ngIf="(submitted && !StudentNew.email)||(email.touched &&email.invalid)">
+                <small class="p-error" *ngIf="email.errors?.['required']">Email is required.</small>
+                <small class="p-error" *ngIf="email.errors?.['pattern']">Email is not valid.</small>
+              </div>
+            </div>
+              <div [style.display]="visible">
+                <div class="field">
+                  <label for="passwor">Password</label>
+                  <input type="password" pInputText name="password" #password="ngModel" id="password"
+                    [(ngModel)]="StudentNew.password" required autofocus>
+                  <small class="p-error" *ngIf="(submitted && !StudentNew.password)||(password.touched &&password.invalid)">password
+                    is required.</small>
+                </div>
+                <div class="field">
+                  <label for="confirm">Confirm password</label>
+                  <input  type="password" pInputText name="confirm" [(ngModel)]="con" #conF="ngModel" id="confirm" required oninput="match()"
+                    autofocus>
+                  <small class="p-error" *ngIf="conF.invalid&&conF.touched||conF.errors?.['required']&&conF.touched">Password not matched</small>
+                </div>
               </div>
           </div>
-
-          <div class="formgrid grid">
-              <div class="field col">
-                  <label for="price">Price</label>
-                  <p-inputNumber id="price" [(ngModel)]="product.price" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
-              </div>
-              <div class="field col">
-                  <label for="quantity">Quantity</label>
-                  <p-inputNumber id="quantity" [(ngModel)]="product.quantity"></p-inputNumber>
-              </div>
+          <div class="col">
+            <div class="">
+              <label for="description">Birth date</label>
+              <p-calendar  id="birth" #birth="ngModel" name="birth" [(ngModel)]="StudentNew.birthDate" [inline]="true" [required]="true">
+              </p-calendar>
+              <small class="p-error" *ngIf="birth.touched&&birth.invalid">Birth date is required.</small>
+            </div>
           </div>
-      </ng-template>
-
-      <ng-template pTemplate="footer">
-          <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-          <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
-      </ng-template>
-  </p-dialog> -->
-
+        </div>
+      </form>
+    </ng-template>
+  
+    <ng-template pTemplate="footer">
+      <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+      <button pButton pRipple [disabled]="StudentDataForm?.invalid" label="Save"
+        icon="pi pi-check" type="submit" class="p-button-text" (click)="saveStudent()"></button>
+    </ng-template>
+  </p-dialog>
+  
+  <ngx-ui-loader [loaderId]="'saveStudent'"></ngx-ui-loader>
+  
