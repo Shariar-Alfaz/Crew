@@ -16,7 +16,7 @@ export class StudentListService {
     return this.http.post<IHttpResult>(`${this.ROOT_URL}/Student/Save`,student);
   }
   getStudents():Observable<IHttpResult>{
-    return this.http.get<IHttpResult>(`${this.ROOT_URL}/Get/Students`);
+    return this.http.get<IHttpResult>(`${this.ROOT_URL}/Get/Student`);
   }
   updateStudent(teacher:any):Observable<IHttpResult>{
     return this.http.post<IHttpResult>(`${this.ROOT_URL}/Update/Student`,teacher);

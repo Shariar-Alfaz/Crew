@@ -6,16 +6,38 @@
     </button>
   </ng-template>
 </p-panel>
-<p-sidebar [(visible)]="visibleSidebar2" position="right" [baseZIndex]="10000">
+<p-sidebar [(visible)]="visibleSidebar2" position="right" [baseZIndex]="10000" styleClass="p-sidebar-md">
   <h4>Add students</h4>
   <span class="p-fluid">
-    <p-autoComplete placeholder="Find students" [(ngModel)]="selectedStudents" [suggestions]="filteredStudents" (completeMethod)="filterStudent($event)" field="name" [multiple]="true">
+    <p-autoComplete [delay]="50" placeholder="Find students" [(ngModel)]="selectedStudents" [suggestions]="filteredStudents" (completeMethod)="filterStudent($event)" field="name" [multiple]="true">
+      <ng-template let-student pTemplate="item">
+        <div class="country-item">
+          <p-avatar *ngIf="student.image!='N/A'" [image]="student.image" shape="circle" styleClass="mr-2"></p-avatar>
+          <p-avatar *ngIf="student.image=='N/A'" shape="circle" styleClass="mr-2" [label]="student.name.substr(0,2)" [style]="{'background-color':'#9C27B0','color':'white'}" ></p-avatar>
+          {{student.name}} <small>({{student.userId}})</small>
+        </div>
+      </ng-template>
     </p-autoComplete>
     <br>
-    <button pButton label="Add to class" icon="pi pi-save"></button>
 </span>
+<button pButton label="Add to class" icon="pi pi-save" (click)="saveStudentsToClass()"></button>
   <p-divider align="center">
     <span class="p-tag">Students in class</span>
 </p-divider>
+<p-listbox  [options]="classStudents" dataKey="id" [metaKeySelection]="false" [checkbox]="false" optionLabel="name" [listStyle]="{'max-height':'600px'}" [style]="{'width':'100%'}">
+  <ng-template let-student pTemplate="student">
+      <div class="cuntry-item flex align-items-center">
+        <div class="flex-grow-1">
+          <p-avatar *ngIf="student.image!='N/A'" [image]="student.image" shape="circle" styleClass="mr-2"></p-avatar>
+        <p-avatar *ngIf="student.image=='N/A'" shape="circle" styleClass="mr-2" [label]="student.name.substr(0,2)" [style]="{'background-color':'#9C27B0','color':'white'}" ></p-avatar>
+          {{student.name}}
+          <small>({{student.userId}})</small>
+        </div>
+          <div class="flex-none">
+            <button pButton pRipple type="button" icon="pi pi-times" class="p-button-sm p-button-rounded p-button-danger p-button-text" (click)="removeStudentFromClass(student.id)"></button>
+          </div>
+      </div>
+  </ng-template>
+</p-listbox>
 </p-sidebar>
 </div>

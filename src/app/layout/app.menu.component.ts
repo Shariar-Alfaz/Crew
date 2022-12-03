@@ -74,6 +74,16 @@ export class AppMenuComponent implements OnInit {
             },
           ],
         },
+        {
+          label:'Exams',
+          items:[
+            {
+              label:'Question generator',
+              icon:'bi bi-file-earmark-medical',
+              routerLink:['/teacher/question-generator']
+            }
+          ]
+        },
       ];
     }
   }
