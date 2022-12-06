@@ -1,3 +1,62 @@
 <div class="card">
-  <p>question-generator works!</p>
+  <div class="grid formgrid p-fluid">
+    <div class="col-3 field">
+      <label>Exam Title</label>
+      <p-dropdown [options]="exams" optionLabel="title" [(ngModel)]="selectedExam" placeholder="Select an exam title"
+      (onChange)="examChange()">
+      </p-dropdown>
+    </div>
+    <div class="col">
+      <div class="p-fluid formgrid grid">
+        <div class="field col-12 md:col-7">
+          <label for="ques">Question</label>
+          <textarea [(ngModel)]="question.title" placeholder="Type question here" pInputTextarea rows="1" [autoResize]="true"></textarea>
+        </div>
+        <div class="field col-12 md:col-1">
+          <br>
+          <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-rounded p-button-success p-button-text" pTooltip="Add option"
+          (click)="addOption()" tooltipPosition="top"></button>
+        </div>
+        <div class="col-12 md:col-3 field">
+          <label for="">Select Answer</label>
+          <p-dropdown placeholder="Select answer" [options]="options" optionLabel="name" optionValue="name"
+          [(ngModel)]="ans"></p-dropdown>
+        </div>
+        <div class="col-12 md:col-12">
+          <div *ngFor="let option of options" class="field-checkbox" style="width:50rem">
+            <div class="flex align-items-center gap-7">
+              <div>
+                <i class="pi pi-circle"></i>
+              </div>
+              <div class="p-fluid">
+                <input pInputText [(ngModel)]="option.name">
+              </div>
+            </div>
+        </div>
+        </div>
+        <div class="col-12 md:col-9">
+        </div>
+        <div class="col-12 md:col-2">
+          <button pButton label="Save" class="p-button-success" (click)="saveQuestion()"></button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="flex justify-content-center align-items-center flex-column">
+    <div><h5>{{selectedExam.title}}</h5></div>
+    <div><p>{{selectedExam.description}}</p></div>
+    <div *ngIf="selectedExam.totalMarks"><p>Total marks:&nbsp;{{selectedExam.totalMarks}}</p></div>
+    <div *ngIf="totalTime"><p>Time:&nbsp;{{totalTime}}mins</p></div>
+  </div>
+  <div *ngFor="let q of allQues let i=index" >
+    <h5>{{i+1}}.&nbsp;{{q.title}}</h5>
+    <div *ngFor="let o of q.options let d=index" class="field-checkbox">
+      <p-radioButton [inputId]="(d).toString()" [(ngModel)]="anyT" name="option" [value]="o.name"></p-radioButton>
+      <label [for]="o.name">{{o.name}}</label>
+  </div>
+
+  </div>
 </div>

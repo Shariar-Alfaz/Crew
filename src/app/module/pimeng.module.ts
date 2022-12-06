@@ -54,6 +54,7 @@ import { SidebarModule } from 'primeng/sidebar';
 import { ChartModule } from 'primeng/chart';
 import {AvatarModule} from 'primeng/avatar';
 import {AvatarGroupModule} from 'primeng/avatargroup';
+import {StepsModule} from 'primeng/steps';
 @NgModule({
   exports: [
     InputTextModule,
@@ -111,7 +112,8 @@ import {AvatarGroupModule} from 'primeng/avatargroup';
     ChartModule,
     SkeletonModule,
     AvatarModule,
-    AvatarGroupModule
+    AvatarGroupModule,
+    StepsModule
   ],
   providers: [DatePipe, CommonModule],
 })

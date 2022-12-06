@@ -11,6 +11,7 @@ import { PrimengModule } from './module/pimeng.module';
 import { NgxUiLoaderConfig, NgxUiLoaderModule, PB_DIRECTION, POSITION, SPINNER } from 'ngx-ui-loader';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './Root-service/interceptor/auth.interceptor';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsPosition: POSITION.bottomCenter,
   bgsSize: 60,
@@ -34,6 +35,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     DialogsComponent,
   ],
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     AppLayoutModule,

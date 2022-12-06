@@ -20,6 +20,13 @@ const routes: Routes = [
     children:[
       {path:'',loadChildren:()=>import('./teacher/teacher.module').then((m)=>m.TeacherModule)}
     ]
+  },
+  {
+    path:'student',
+    component:AppLayoutComponent,
+    children:[
+      {path:'',loadChildren:()=>import('./student/student.module').then((m)=>m.StudentModule)}
+    ]
   }
 ];
 

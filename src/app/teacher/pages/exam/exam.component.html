@@ -1,0 +1,78 @@
+<div class="card">
+  <p-card>
+    <ng-template pTemplate="title">
+      Exam details
+    </ng-template>
+    <ng-template pTemplate="subtitle">
+      Provide all information
+    </ng-template>
+    <ng-template pTemplate="content">
+      <form #examForm>
+        <div class="p-fluid formgrid grid">
+          <div class="field col-12 md:col-6">
+            <label for="examTitle">Exam title</label>
+            <input placeholder="Enter title" type="text" pInputText [(ngModel)]="exam.title" #examTitle="ngModel"
+              name="examTitle" id="examTitle" required>
+            <div *ngIf="(!exam.title && submitted )|| (examTitle.invalid && examTitle.touched)">
+              <small class="p-error" *ngIf="examTitle.errors?.['required']">Title
+                is required.</small>
+            </div>
+          </div>
+          <div class="field col-12 md:col-6">
+            <label for="class">Class</label>
+            <p-dropdown [(ngModel)]="exam.classId" [options]="classes" optionLabel="name" optionValue="id"
+              placeholder="Select a class" inputId="class" #class="ngModel" [required]="true" name="class"></p-dropdown>
+            <div *ngIf="(!exam.classId && submitted )|| (class.invalid && class.touched)">
+              <div *ngIf="(!exam.title && submitted )|| (examTitle.invalid && examTitle.touched)">
+                <small class="p-error" *ngIf="examTitle.errors?.['required']">Title
+                  is required.</small>
+              </div>
+            </div>
+          </div>
+          <div class="field col-12 md:col-4">
+            <label for="marks">Total marks</label>
+            <p-inputNumber placeholder="Select total marks" [required]="true" [(ngModel)]="exam.totalMarks"
+              [showButtons]="true" buttonLayout="horizontal" inputId="marks" spinnerMode="horizontal" [step]="5"
+              [min]="0" [max]="500" decrementButtonClass="p-button-danger" incrementButtonClass="p-button-success"
+              incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" name="marks" #marks="ngModel">
+            </p-inputNumber>
+            <div *ngIf="(!exam.totalMarks && submitted )|| (marks.invalid && marks.touched)">
+              <small class="p-error" *ngIf="marks.errors?.['required']">Marks
+                is required.</small>
+            </div>
+          </div>
+          <div class="field col-12 md:col-4">
+            <label for="startDate">Start date-time</label>
+            <p-calendar placeholder="Select date-time" [(ngModel)]="exam.startTime" [showTime]="true"
+              [hourFormat]="'12'" [required]="true" inputId="startDate" [showButtonBar]="true" name="startDate"
+              #startDate="ngModel"></p-calendar>
+            <div *ngIf="(!exam.startTime && submitted )|| (startDate.invalid && startDate.touched)">
+              <small class="p-error" *ngIf="startDate.errors?.['required']">Start date-time
+                is required.</small>
+            </div>
+          </div>
+          <div class="field col-12 md:col-4">
+            <label for="endTime">Duration <sup>(min)</sup></label>
+            <p-inputNumber inputId="endTime" [(ngModel)]="duration" [min]="5" [max]="240" name="endTime"
+              #endTime="ngModel">
+            </p-inputNumber>
+          </div>
+          <div class="field col-12">
+            <label for="des">Description</label>
+            <textarea [(ngModel)]="exam.description" required name="des" #des="ngModel" rows="5" cols="30"
+              pInputTextarea [autoResize]="true"></textarea>
+              <div *ngIf="(!exam.description&& submitted )|| (des.invalid && des.touched)">
+                <small class="p-error" *ngIf="des.errors?.['required']">Description
+                  is required.</small>
+              </div>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <div class="grid grid-nogutter justify-content-end">
+        <p-button label="Submit" (click)="save()"></p-button>
+      </div>
+    </ng-template>
+  </p-card>
+</div>

@@ -4,7 +4,9 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TeacherRoutingModule } from './teacher-routing.module';
 import { PrimengModule } from '../module/pimeng.module';
 import { ClassComponent } from './pages/class/class.component';
+import { ExamComponent } from './pages/exam/exam.component';
 import { QuestionGeneratorComponent } from './pages/question-generator/question-generator.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -12,12 +14,15 @@ import { QuestionGeneratorComponent } from './pages/question-generator/question-
   declarations: [
     DashboardComponent,
     ClassComponent,
+    ExamComponent,
     QuestionGeneratorComponent
   ],
   imports: [
     CommonModule,
     TeacherRoutingModule,
-    PrimengModule
+    PrimengModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class TeacherModule { }

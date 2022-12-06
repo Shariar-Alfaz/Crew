@@ -78,13 +78,38 @@ export class AppMenuComponent implements OnInit {
           label:'Exams',
           items:[
             {
-              label:'Question generator',
+              label:'Exam generator',
               icon:'bi bi-file-earmark-medical',
-              routerLink:['/teacher/question-generator']
+              items:[
+                {
+                  label:'Exam',
+                  icon:'bi bi-file-earmark-text',
+                  routerLink:['/teacher/exam/exam-creation']
+                },
+                {
+                  label:'Question generator',
+                  icon:'pi pi-file-edit',
+                  routerLink:'/teacher/exam/question-generator'
+                }
+              ]
             }
           ]
         },
       ];
+    }
+    else if(role=='student'){
+      this.model = [
+        {
+          label: 'Home',
+          items: [
+            {
+              label: 'Dashboard',
+              icon: 'pi pi-fw pi-home',
+              routerLink: ['/student/dashboard'],
+            },
+          ],
+        },
+      ]
     }
   }
 }
