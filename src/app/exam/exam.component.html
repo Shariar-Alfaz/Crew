@@ -1,0 +1,16 @@
+<div class="card">
+  <div class="flex justify-content-center align-items-center flex-column">
+    <div><h5>{{exam.title}}</h5></div>
+    <div><p>{{exam.description}}</p></div>
+    <div *ngIf="exam.totalMarks"><p>Total marks:&nbsp;{{exam.totalMarks}}</p></div>
+    <div><p>Time:&nbsp;{{getTotalTime(exam.startTime,exam.endTime)}}mins</p></div>
+  </div>
+  <div *ngFor="let q of fQuestion let i=index" >
+    <h5>{{i+1}}.&nbsp;{{q.title}}</h5>
+    <div *ngFor="let o of q.options let d=index" class="field-checkbox">
+      <p-radioButton [inputId]="(d).toString()" [(ngModel)]="answerScript[i]" name="option" [value]="o.name"></p-radioButton>
+      <label [for]="o.name">{{o.name}}</label>
+  </div>
+
+  </div>
+</div>

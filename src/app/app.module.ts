@@ -12,6 +12,7 @@ import { NgxUiLoaderConfig, NgxUiLoaderModule, PB_DIRECTION, POSITION, SPINNER }
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './Root-service/interceptor/auth.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ExamComponent } from './exam/exam.component';
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsPosition: POSITION.bottomCenter,
   bgsSize: 60,
@@ -33,6 +34,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     AppComponent,
     LoginComponent,
     DialogsComponent,
+    ExamComponent,
   ],
   imports: [
     FormsModule,

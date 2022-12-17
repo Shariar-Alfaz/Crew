@@ -1,0 +1,31 @@
+<div class="card">
+  <p-panel [header]="class.name">
+    <ng-template pTemplate="icons">
+    </ng-template>
+    <p>Exams</p>
+    <div class="flex align-items-center gap-2">
+      <div *ngFor="let e of exams">
+       <p-card routerLink="#" [header]="e.title" [subheader]="e.description">
+        <div class="grid">
+          <div class="col-5">
+            <small>Date:&nbsp;{{e.startTime | date:'dd.MM.yyyy'}}</small><br>
+            <small>Time:&nbsp;{{e.startTime| date:'h:mm a'}}</small>
+          </div>
+          <div class="col-2">
+            <p-divider layout="vertical">
+
+            </p-divider>
+          </div>
+          <div class="col-5">
+            <small>Total marks:&nbsp;{{e.totalMarks}}</small><br>
+            <small>Duration:&nbsp;{{makeDuration(e.startTime,e.endTime)}} mins</small>
+          </div>
+        </div>
+        <ng-template pTemplate="footer">
+          <button pButton label="Start" [routerLink]="['/exam/'+e.id]"></button>
+        </ng-template>
+       </p-card>
+      </div>
+     </div>
+  </p-panel>
+</div>

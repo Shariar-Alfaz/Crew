@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ExamComponent } from './exam/exam.component';
 import { AppLayoutComponent } from './layout/app.layout.component';
 import { LoginComponent } from './login/login.component';
 import { AdminGuardGuard } from './Root-service/guard/admin-guard.guard';
@@ -27,7 +28,8 @@ const routes: Routes = [
     children:[
       {path:'',loadChildren:()=>import('./student/student.module').then((m)=>m.StudentModule)}
     ]
-  }
+  },
+  {path:'exam/:id',component:ExamComponent}
 ];
 
 @NgModule({

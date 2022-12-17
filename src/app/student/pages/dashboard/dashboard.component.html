@@ -1,1 +1,9 @@
-<p>dashboard works!</p>
+<div class="card">
+  <p-panel header="Classes">
+    <div class="make-flex gap-4">
+        <a *ngFor="let class of classes" [routerLink]="['class',class.id]" class="shadow-d property cursor-pointer flex justify-content-center align-items-center bg-blue-500 text-white font-bold border-round">
+        {{class.name}}
+        </a>
+    </div>
+  </p-panel>
+</div>

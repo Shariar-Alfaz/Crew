@@ -44,6 +44,13 @@ export class AppTopBarComponent implements OnInit {
         }
         this.me = res.singleData;
       })
+    }else if(role=='student'){
+      this.service.getStudent().subscribe((res)=>{
+        if(res.hasError){
+          return;
+        }
+        this.me = res.singleData;
+      })
     }
   }
   logOut() {
