@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path:'admin',
     component:AppLayoutComponent,
-    canActivate:[AdminGuardGuard],
+    //canActivate:[AdminGuardGuard],
     children:[
       {path:'',loadChildren:()=>import('./admin/admin.module').then((m)=>m.AdminModule)}
     ]

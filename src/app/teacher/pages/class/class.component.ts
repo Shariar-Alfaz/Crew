@@ -7,7 +7,9 @@ import { BaseComponent } from 'src/app/enums/common/base.component';
 import { ErrorDialogTypeEnums } from 'src/app/enums/common/common.enum';
 import { Class } from 'src/app/models/class.model';
 import { Student } from 'src/app/models/student.modal';
+import { ClassTaskDto } from 'src/app/models/task.model';
 import { ClassService } from '../../services/class.service';
+import { TaskService } from '../../services/task.service';
 import { TeacherStudentService } from '../../services/teacher-student.service';
 
 @Component({
@@ -23,12 +25,16 @@ export class ClassComponent extends BaseComponent implements OnInit {
   selectedStudents: Student[] = [];
   filteredStudents: any;
   classStudents: Student[] = [];
+  visibleSidebar:boolean=false;
+  classTasks:any[] = [];
+  SelectedTask:any;
   constructor(
     public override loaderService: NgxUiLoaderService,
     public override dialogService: DialogService,
     private classService: ClassService,
     private route: ActivatedRoute,
-    private studentService: TeacherStudentService
+    private studentService: TeacherStudentService,
+    private taskService:TaskService
   ) {
     super(dialogService, loaderService);
   }
@@ -37,6 +43,7 @@ export class ClassComponent extends BaseComponent implements OnInit {
     this.getClass();
     this.getStudents();
     this.getClassStudent();
+    this.getClassTask();
   }
   getClass() {
     this.classService
@@ -131,5 +138,22 @@ export class ClassComponent extends BaseComponent implements OnInit {
         this.showDialog(res.message, ErrorDialogTypeEnums.Success);
         this.getStudents();
       });
+  }
+  getClassTask(){
+    this.taskService.getClassTask(this.route.snapshot.paramMap.get('id')).subscribe((res)=>{
+      if(res.hasError){
+        this.showDialog(res.message,ErrorDialogTypeEnums.Error);
+        return;
+      }
+      this.classTasks = [...res.data];
+    },(err)=>{
+      this.handleErrors(err);
+    })
+  }
+  getStudentData(id:any){
+    if(!this.SelectedTask){
+      this.showDialog("Please select a task first.",ErrorDialogTypeEnums.Warning);
+      return;
+    }
   }
 }

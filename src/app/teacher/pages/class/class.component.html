@@ -4,6 +4,9 @@
     <button class="p-panel-header-icon p-link" pTooltip="Students" tooltipPosition="top" (click)="visibleSidebar2=true">
       <span class="pi pi-users"></span>
     </button>
+    <button class="p-panel-header-icon p-link" pTooltip="Tasks" tooltipPosition="top" (click)="visibleSidebar=true">
+      <span class="pi pi-sliders-v"></span>
+    </button>
   </ng-template>
 </p-panel>
 <p-sidebar [(visible)]="visibleSidebar2" position="right" [baseZIndex]="10000" styleClass="p-sidebar-md">
@@ -35,6 +38,31 @@
         </div>
           <div class="flex-none">
             <button pButton pRipple type="button" icon="pi pi-times" class="p-button-sm p-button-rounded p-button-danger p-button-text" (click)="removeStudentFromClass(student.id)"></button>
+          </div>
+      </div>
+  </ng-template>
+</p-listbox>
+</p-sidebar>
+
+<p-sidebar [(visible)]="visibleSidebar" position="right" [baseZIndex]="10000" styleClass="p-sidebar-md">
+  <h4>Tasks</h4>
+  <span class="p-fluid">
+    <p-dropdown [options]="classTasks" [(ngModel)]="SelectedTask" placeholder="Select a task" optionLabel="name"></p-dropdown>
+  </span>
+  <p-divider align="center">
+    <span class="p-tag">Select a student</span>
+</p-divider>
+<p-listbox  [options]="classStudents" dataKey="id" [metaKeySelection]="false" [checkbox]="false" optionLabel="name" [listStyle]="{'max-height':'600px'}" [style]="{'width':'100%'}">
+  <ng-template let-student pTemplate="student">
+      <div class="cuntry-item flex align-items-center">
+        <div class="flex-grow-1">
+          <p-avatar *ngIf="student.image!='N/A'" [image]="student.image" shape="circle" styleClass="mr-2"></p-avatar>
+        <p-avatar *ngIf="student.image=='N/A'" shape="circle" styleClass="mr-2" [label]="student.name.substr(0,2)" [style]="{'background-color':'#9C27B0','color':'white'}" ></p-avatar>
+          {{student.name}}
+          <small>({{student.userId}})</small>
+        </div>
+          <div class="flex-none">
+            <button pButton pRipple type="button" icon="pi pi-eye" class="p-button-sm p-button-rounded p-button-info p-button-text" (click)="getStudentData(student.id)"></button>
           </div>
       </div>
   </ng-template>

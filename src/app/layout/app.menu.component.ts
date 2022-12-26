@@ -89,12 +89,22 @@ export class AppMenuComponent implements OnInit {
                 {
                   label:'Question generator',
                   icon:'pi pi-file-edit',
-                  routerLink:'/teacher/exam/question-generator'
+                  routerLink:['/teacher/exam/question-generator']
                 }
               ]
             }
           ]
         },
+        {
+          label:'Task',
+          items:[
+            {
+              label:'Assign Task',
+              icon:'bi bi-card-checklist',
+              routerLink:['/teacher/task/assign-task']
+            },
+          ]
+        }
       ];
     }
     else if(role=='student'){

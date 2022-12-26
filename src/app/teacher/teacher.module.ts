@@ -7,6 +7,7 @@ import { ClassComponent } from './pages/class/class.component';
 import { ExamComponent } from './pages/exam/exam.component';
 import { QuestionGeneratorComponent } from './pages/question-generator/question-generator.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TaskAssignComponent } from './pages/task-assign/task-assign.component';
 
 
 
@@ -15,7 +16,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DashboardComponent,
     ClassComponent,
     ExamComponent,
-    QuestionGeneratorComponent
+    QuestionGeneratorComponent,
+    TaskAssignComponent
   ],
   imports: [
     CommonModule,

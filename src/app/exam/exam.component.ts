@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { DialogService } from 'primeng/dynamicdialog';
-import { ConnectableObservable } from 'rxjs';
 import { BaseComponent } from '../enums/common/base.component';
 import { ErrorDialogTypeEnums } from '../enums/common/common.enum';
 import { IAnswerScript, IExam, IFinalQuestion, IShowQuestion } from '../models/exam.model';
