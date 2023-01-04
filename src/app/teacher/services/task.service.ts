@@ -20,4 +20,7 @@ ROOT_URL:string='Teacher/api/';
   getClassTask(id:any):Observable<IHttpResult>{
     return this.http.get<IHttpResult>(`${this.ROOT_URL}Get/ClassTask/${id}`);
   }
+  getMonitor(studentId:any,taskId:any):Observable<IHttpResult>{
+    return this.http.get<IHttpResult>(`${this.ROOT_URL}Get/Student/Task/Monitor/${studentId}/${taskId}`);
+  }
 }

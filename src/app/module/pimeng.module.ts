@@ -55,8 +55,10 @@ import { ChartModule } from 'primeng/chart';
 import {AvatarModule} from 'primeng/avatar';
 import {AvatarGroupModule} from 'primeng/avatargroup';
 import {StepsModule} from 'primeng/steps';
+import {ImageModule} from 'primeng/image';
 @NgModule({
   exports: [
+    ImageModule,
     InputTextModule,
     PasswordModule,
     ButtonModule,

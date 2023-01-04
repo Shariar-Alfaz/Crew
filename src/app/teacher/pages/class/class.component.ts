@@ -7,7 +7,7 @@ import { BaseComponent } from 'src/app/enums/common/base.component';
 import { ErrorDialogTypeEnums } from 'src/app/enums/common/common.enum';
 import { Class } from 'src/app/models/class.model';
 import { Student } from 'src/app/models/student.modal';
-import { ClassTaskDto } from 'src/app/models/task.model';
+import { ClassTaskDto, TaskMonitor } from 'src/app/models/task.model';
 import { ClassService } from '../../services/class.service';
 import { TaskService } from '../../services/task.service';
 import { TeacherStudentService } from '../../services/teacher-student.service';
@@ -28,6 +28,8 @@ export class ClassComponent extends BaseComponent implements OnInit {
   visibleSidebar:boolean=false;
   classTasks:any[] = [];
   SelectedTask:any;
+  timeline:boolean = false;
+  taskMonitor:TaskMonitor = {} as TaskMonitor;
   constructor(
     public override loaderService: NgxUiLoaderService,
     public override dialogService: DialogService,
@@ -155,5 +157,12 @@ export class ClassComponent extends BaseComponent implements OnInit {
       this.showDialog("Please select a task first.",ErrorDialogTypeEnums.Warning);
       return;
     }
+    this.taskService.getMonitor(id,this.SelectedTask.id).subscribe((res)=>{
+        this.taskMonitor = res.singleData;
+        this.timeline = true;
+        console.log(this.taskMonitor.taskMonitorScreenShotsCollection);
+    },err=>{
+      this.handleErrors(err);
+    })
   }
 }

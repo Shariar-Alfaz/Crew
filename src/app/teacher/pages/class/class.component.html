@@ -68,4 +68,19 @@
   </ng-template>
 </p-listbox>
 </p-sidebar>
+
+<p-sidebar [(visible)]="timeline" [fullScreen]="true" [baseZIndex]="10000">
+  <h3>Total Keypress: {{taskMonitor.totalKeypress}}</h3>
+
+  <div class="card">
+    <p-timeline [value]="taskMonitor.taskMonitorScreenShotsCollection">
+        <ng-template pTemplate="content" let-event>
+            {{event.dateTime | date:'long'}}
+            <br><br>
+            <p-image [src]="event.screenShot"alt="Image" width="250" [preview]="true"></p-image>
+            <br>
+        </ng-template>
+    </p-timeline>
+</div>
+</p-sidebar>
 </div>
